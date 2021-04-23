@@ -3,11 +3,10 @@ import { ptBR } from "date-fns/locale";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { PlayerContext } from "../../contexts/PlayerContext";
+import { usePlayer } from "../../contexts/PlayerContext";
 import { api } from "../../services/api";
 import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
 import styles from "./episode.module.scss";
-import { useContext } from 'react';
 
 type Episode = {
   id: string;
@@ -26,8 +25,8 @@ type EpisodeProps = {
 };
 
 export default function Episode({ episode }: EpisodeProps) {
-  const { play } = useContext(PlayerContext);
-  
+  const { play } = usePlayer();
+
   return (
     <div className={styles.episode}>
       <div className={styles.thumbnailContainer}>
@@ -78,7 +77,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: { slug: episode.id },
     };
   });
-  
+
   return {
     paths: [],
     fallback: "blocking",
